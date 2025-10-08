@@ -7,16 +7,22 @@ import numpy as np
 #E - точность
 def alg1(a, b, n, E):
     h = (b - a) / n # шаг 
-    IN = 0  # значение интеграла при n разбиений
-    R = float('inf')  # начальная погрешность
-    while R>E:
-        S2 = 0
+
+    def integral(h):
         x = a
-        while x<= (b - h):
-            S2 += f(x)
+        S = 0
+        while x <= (b-h):
+            S+=f(x)
             x+=h
-        I2N = h*S2
-        R = abs(I2N-IN)
-        IN = I2N
-        h /= 2
-    return I2N
+        return h*S
+    
+    IN = integral(h)
+    R = float('inf')
+
+    while R > E:
+        h/=2
+        IN2 = integral(h)
+        R = abs(IN2-IN)
+        IN = IN2
+
+    return IN2
