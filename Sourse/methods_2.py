@@ -1,11 +1,10 @@
-
 # ПЕРЕМЕННЫЙ ШАГ
 
 from func import f
 import numpy as np
 
 #E - точность
-def alg1(a, b, n, E):
+def adaptive_left_rectangles(a, b, n, E):
     h = (b - a) / n # шаг 
 
     def integral(h):

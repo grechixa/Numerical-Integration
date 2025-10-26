@@ -4,6 +4,7 @@
 import numpy as np
 from func import f
 
+# Метод трапеций
 def trapezoid(a, b, n):
     h = (b-a)/n
     r = 0
@@ -11,6 +12,7 @@ def trapezoid(a, b, n):
         r += f(i)
     return h*((f(a)+f(b))/2+r)
 
+# Метод левых частей
 def left(a, b ,n):
     h = (b-a)/n
     r = 0
@@ -18,6 +20,7 @@ def left(a, b ,n):
         r += f(i)
     return r*h
     
+# Метод правых частей
 def right(a, b, n):
     h = (b-a)/n
     r = 0
@@ -25,6 +28,7 @@ def right(a, b, n):
         r += f(i)
     return r*h
 
+# Метод Симпсона (метод парабол)
 def simpson(a, b, n):
     s1 = 0
     s2 = 0
