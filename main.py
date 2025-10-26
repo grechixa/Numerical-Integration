@@ -1,5 +1,7 @@
 import os
 from interface import *
+from Source.integration import *
+
 
 def clear_console():
     os.system('cls' if os.name == 'nt' else 'clear')
@@ -51,19 +53,39 @@ def const_step_integration_menu():
         
         if choice == "1":
             clear_console()
-            print("Метод прямоугольников левых частей - реализация в разработке")
+            print("Вычисляется интеграл:")
+            print("I = integral from 0.8 to 1.6 of sqrt(2*x + 1.6) / (1.8 + sqrt(0.3*x^2 + 2.3)) dx")
+            print("Результат: ", left(0.8, 1.6, 10000))
+            print("\nЧтобы продолжить нажмите enter ...")
             input()
         elif choice == "2":
             clear_console()
-            print("Метод прямоугольников правых частей - реализация в разработке")
+            print("Вычисляется интеграл:")
+            print("I = integral from 0.8 to 1.6 of sqrt(2*x + 1.6) / (1.8 + sqrt(0.3*x^2 + 2.3)) dx")
+            print("Результат: ", right(0.8, 1.6, 10000))
+            print("\nЧтобы продолжить нажмите enter ...")
             input()
         elif choice == "3":
             clear_console()
-            print("Метод трапеций - реализация в разработке")
+            print("Вычисляется интеграл:")
+            print("I = integral from 0.8 to 1.6 of sqrt(2*x + 1.6) / (1.8 + sqrt(0.3*x^2 + 2.3)) dx")
+            print("Результат: ", trapezoid(0.8, 1.6, 10000))
+            print("\nЧтобы продолжить нажмите enter ...")
             input()
         elif choice == "4":
             clear_console()
-            print("Метод Симпсона - реализация в разработке")
+            print("Вычисляется интеграл:")
+            print("I = integral from 0.8 to 1.6 of sqrt(2*x + 1.6) / (1.8 + sqrt(0.3*x^2 + 2.3)) dx")
+            print("Результат: ", simpson(0.8, 1.6, 10000))
+            print("\nЧтобы продолжить нажмите enter ...")
+            input()
+        elif choice == "5":
+            clear_console()
+            print("Левых частей: ", left(0.8, 1.6, 10000))
+            print("Правых частей: ", right(0.8, 1.6, 10000))
+            print("Трапеции: ", trapezoid(0.8, 1.6, 10000))
+            print("Симпсон: ", simpson(0.8, 1.6, 10000))
+            print("\nЧтобы продолжить нажмите enter ...")
             input()
         elif choice == "0":
             break
@@ -79,11 +101,23 @@ def var_step_integration_menu():
         
         if choice == "1":
             clear_console()
-            print("Алгоритм 1 с переменным шагом - реализация в разработке")
+            print("Вычисляется интеграл:")
+            print("I = integral from 0.8 to 1.6 of sqrt(2*x + 1.6) / (1.8 + sqrt(0.3*x^2 + 2.3)) dx")
+            print("Результат: ", algorithm1(0.8, 1.6, 10000))
+            print("\nЧтобы продолжить нажмите enter ...")
             input()
         elif choice == "2":
             clear_console()
-            print("Алгоритм 2 с переменным шагом - реализация в разработке")
+            print("Вычисляется интеграл:")
+            print("I = integral from 0.8 to 1.6 of sqrt(2*x + 1.6) / (1.8 + sqrt(0.3*x^2 + 2.3)) dx")
+            print("Результат: ", algorithm2(0.8, 1.6, 10000))
+            print("\nЧтобы продолжить нажмите enter ...")
+            input()
+        elif choice == "3":
+            clear_console()
+            print("Алгоритм 1: ", algorithm1(0.8, 1.6, 10000))
+            print("Алгоритм 2: ", algorithm2(0.8, 1.6, 10000))
+            print("\nЧтобы продолжить нажмите enter ...")
             input()
         elif choice == "0":
             break
@@ -93,8 +127,10 @@ def var_step_integration_menu():
 
 def multiple_integrals_menu():
     clear_console()
-    print("Кратные интегралы - раздел в разработке")
-    print("Двойные, тройные интегралы будут реализованы здесь")
+    print("Вычисляется интеграл:")
+    print("I = double integral over x=0..1 and y=0..2 of (x^2 + y) / (1 + x + y^2) dy dx")
+    print("Результат: ", double_integral(0.8, 1.6, 10000))
+    print("\nЧтобы продолжить нажмите enter ...")
     input()
 
 def differential_equations_menu():
