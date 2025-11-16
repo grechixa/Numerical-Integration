@@ -1,6 +1,9 @@
 import os
 from interface import *
 from Source.integration import *
+from tabulate import tabulate
+from Source.functions import *
+from Source.diff_eq import *
 
 
 def clear_console():
@@ -154,83 +157,83 @@ def multiple_integrals_menu():
 
 
 def differential_equations_menu():
+
     while True:
         clear_console()
-        diff_ur()
-        print()
+        diff_ur_type()
+        choice = input("\nВыберите тип уравнения: ").strip()
 
-        choice = input("Выберите метод: ")
-
-        if choice == "1":
-            clear_console()
-            print("Метод Эйлера - реализация в разработке")
-            input()
-        elif choice == "2":
-            clear_console()
-            print("Метод Рунге-Кутты - реализация в разработке")
-            input()
-        elif choice == "3":
-            clear_console()
-            print("Метод Адамса - реализация в разработке")
-            input()
-        elif choice == "0":
+        if choice == "0":
             break
-        else:
-            print("Неверный ввод. Нажмите Enter чтобы продолжить...")
-            input()
 
-
-def elementary_functions_menu():
-    while True:
-        clear_console()
-        diff_ur()
-
-        choice = input("Выберите действие: ")
-
+        # Настройки по-умолчанию в зависимости от выбора
         if choice == "1":
-            clear_console()
-            print("Вычисление значений функций - реализация в разработке")
-            input()
+            func = control_case_1
+            y0 = [1.0]
+            a, b = 0.0, 1.0
+            n = 10
         elif choice == "2":
-            clear_console()
-            print("Построение графиков - реализация в разработке")
-            input()
+            func = control_case_2
+            y0 = [1.0, 0.0]
+            a, b = 1.0, 2.0
+            n = 10
         elif choice == "3":
-            clear_console()
-            print("Табулирование функций - реализация в разработке")
-            input()
-        elif choice == "0":
-            break
+            func = control_case_3
+            y0 = [2.0, 1.0, 1.0]
+            a, b = 0.0, 0.3
+            n = 100
         else:
-            print("Неверный ввод. Нажмите Enter чтобы продолжить...")
+            print("Некорректный выбор. Нажмите Enter чтобы продолжить...")
             input()
+            continue
 
-
-def nonlinear_equations_menu():
-    while True:
-        clear_console()
-        nonlinear()
-        print()
-
-        choice = input("Выберите метод: ")
-
-        if choice == "1":
+        # Выбор метода
+        while True:
             clear_console()
-            print("Метод половинного деления - реализация в разработке")
-            input()
-        elif choice == "2":
+            diff_ur_method()
+            method = input("\nВыберите метод: ").strip()
+
+            if method == "0":
+                break
+
+            try:
+                if method == "1":
+                    xs, ys = euler(func, a, b, y0, n)
+                elif method == "2":
+                    xs, ys = runge(func, a, b, y0, n)
+                else:
+                    print("Некорректный ввод. Нажмите Enter чтобы попробовать снова...")
+                    input()
+                    continue
+            except Exception as e:
+                print(f"Ошибка при вычислении: {e}")
+                print("Нажмите Enter чтобы вернуться...")
+                input()
+                break
+
+            # Формируем таблицу вывода
+            table = []
+            for i in range(len(xs)):
+                row = [f"{xs[i]:.6f}"] + [f"{val:.6f}" for val in ys[i]]
+                table.append(row)
+
+            # Заголовки в зависимости от числа уравнений
+            headers = ["x"]
+            if len(y0) == 1:
+                headers += ["y"]
+            elif len(y0) == 2:
+                headers += ["u", "v"]
+            elif len(y0) == 3:
+                headers += ["x(t)", "y(t)", "z(t)"]
+            else:
+                headers += [f"y{i+1}" for i in range(len(y0))]
+
             clear_console()
-            print("Метод Ньютона - реализация в разработке")
+            print("=== РЕЗУЛЬТАТ ===\n")
+            print(tabulate(table, headers=headers, tablefmt="grid"))
+            print("\nГотово. Нажмите Enter чтобы продолжить...")
             input()
-        elif choice == "3":
-            clear_console()
-            print("Метод секущих - реализация в разработке")
-            input()
-        elif choice == "0":
             break
-        else:
-            print("Неверный ввод. Нажмите Enter чтобы продолжить...")
-            input()
 
 
 # Запуск программы
