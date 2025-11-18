@@ -4,6 +4,12 @@ from Source.integration import *
 from tabulate import tabulate
 from Source.functions import *
 from Source.diff_eq import *
+import numpy as np
+
+try:
+    import matplotlib.pyplot as plt
+except Exception:
+    plt = None
 
 
 def clear_console():
@@ -51,6 +57,59 @@ def integration_menu():
             input()
 
 
+def prompt_yes_no(msg, default="n"):
+    ans = input(f"{msg} ({'Y/n' if default.lower()=='y' else 'y/N'}): ").strip().lower()
+    if ans == "":
+        ans = default.lower()
+    return ans in ("y", "yes")
+
+
+def plot_solution(xs, ys, headers):
+    if plt is None:
+        print("matplotlib не установлен. Невозможно построить график.")
+        return
+    xs = np.array(xs)
+    ys = np.array(ys)
+    plt.figure(figsize=(8, 5))
+    # Если одномерная (одна компонента), ys имеет форму (N,1) — приводим к (N,)
+    if ys.ndim == 1 or ys.shape[1] == 1:
+        plt.plot(xs, ys.reshape(-1), label=headers[1] if len(headers) > 1 else "y")
+    else:
+        for i in range(ys.shape[1]):
+            plt.plot(
+                xs,
+                ys[:, i],
+                label=headers[i + 1] if len(headers) > i + 1 else f"y{i+1}",
+            )
+    plt.xlabel("x")
+    plt.legend()
+    plt.grid(True)
+    plt.tight_layout()
+    plt.show()
+
+
+def plot_integral_curve(a, b, num_points=1000):
+    if plt is None:
+        print("matplotlib не установлен. Невозможно построить график.")
+        return
+    xs = np.linspace(a, b, num_points)
+    # используем функцию f из Source.functions
+    ys = f(xs)
+    # накопленный интеграл методом трапеций
+    dx = xs[1:] - xs[:-1]
+    avg = 0.5 * (ys[:-1] + ys[1:])
+    cum = np.zeros_like(xs)
+    cum[1:] = np.cumsum(avg * dx)
+    plt.figure(figsize=(8, 5))
+    plt.plot(xs, cum, label="I(x) = ∫_a^x f(t) dt")
+    plt.xlabel("x")
+    plt.ylabel("I(x)")
+    plt.grid(True)
+    plt.legend()
+    plt.tight_layout()
+    plt.show()
+
+
 def const_step_integration_menu():
     while True:
         clear_console()
@@ -63,7 +122,10 @@ def const_step_integration_menu():
             print(
                 "I = integral from 0.8 to 1.6 of sqrt(2*x + 1.6) / (1.8 + sqrt(0.3*x^2 + 2.3)) dx"
             )
-            print("Результат: ", left(0.8, 1.6, 10000))
+            res = left(0.8, 1.6, 10000)
+            print("Результат: ", res)
+            if prompt_yes_no("Построить интегральную кривую?", default="n"):
+                plot_integral_curve(0.8, 1.6, num_points=2000)
             print("\nЧтобы продолжить нажмите enter ...")
             input()
         elif choice == "2":
@@ -72,7 +134,10 @@ def const_step_integration_menu():
             print(
                 "I = integral from 0.8 to 1.6 of sqrt(2*x + 1.6) / (1.8 + sqrt(0.3*x^2 + 2.3)) dx"
             )
-            print("Результат: ", right(0.8, 1.6, 10000))
+            res = right(0.8, 1.6, 10000)
+            print("Результат: ", res)
+            if prompt_yes_no("Построить интегральную кривую?", default="n"):
+                plot_integral_curve(0.8, 1.6, num_points=2000)
             print("\nЧтобы продолжить нажмите enter ...")
             input()
         elif choice == "3":
@@ -81,7 +146,10 @@ def const_step_integration_menu():
             print(
                 "I = integral from 0.8 to 1.6 of sqrt(2*x + 1.6) / (1.8 + sqrt(0.3*x^2 + 2.3)) dx"
             )
-            print("Результат: ", trapezoid(0.8, 1.6, 10000))
+            res = trapezoid(0.8, 1.6, 10000)
+            print("Результат: ", res)
+            if prompt_yes_no("Построить интегральную кривую?", default="n"):
+                plot_integral_curve(0.8, 1.6, num_points=2000)
             print("\nЧтобы продолжить нажмите enter ...")
             input()
         elif choice == "4":
@@ -90,7 +158,10 @@ def const_step_integration_menu():
             print(
                 "I = integral from 0.8 to 1.6 of sqrt(2*x + 1.6) / (1.8 + sqrt(0.3*x^2 + 2.3)) dx"
             )
-            print("Результат: ", simpson(0.8, 1.6, 10000))
+            res = simpson(0.8, 1.6, 10000)
+            print("Результат: ", res)
+            if prompt_yes_no("Построить интегральную кривую?", default="n"):
+                plot_integral_curve(0.8, 1.6, num_points=2000)
             print("\nЧтобы продолжить нажмите enter ...")
             input()
         elif choice == "5":
@@ -99,6 +170,8 @@ def const_step_integration_menu():
             print("Правых частей: ", right(0.8, 1.6, 10000))
             print("Трапеции: ", trapezoid(0.8, 1.6, 10000))
             print("Симпсон: ", simpson(0.8, 1.6, 10000))
+            if prompt_yes_no("Построить интегральную кривую?", default="n"):
+                plot_integral_curve(0.8, 1.6, num_points=2000)
             print("\nЧтобы продолжить нажмите enter ...")
             input()
         elif choice == "0":
@@ -120,7 +193,10 @@ def var_step_integration_menu():
             print(
                 "I = integral from 0.8 to 1.6 of sqrt(2*x + 1.6) / (1.8 + sqrt(0.3*x^2 + 2.3)) dx"
             )
-            print("Результат: ", algorithm1(0.8, 1.6, 10000))
+            res = algorithm1(0.8, 1.6, 10000)
+            print("Результат: ", res)
+            if prompt_yes_no("Построить интегральную кривую?", default="n"):
+                plot_integral_curve(0.8, 1.6, num_points=2000)
             print("\nЧтобы продолжить нажмите enter ...")
             input()
         elif choice == "2":
@@ -129,13 +205,18 @@ def var_step_integration_menu():
             print(
                 "I = integral from 0.8 to 1.6 of sqrt(2*x + 1.6) / (1.8 + sqrt(0.3*x^2 + 2.3)) dx"
             )
-            print("Результат: ", algorithm2(0.8, 1.6, 10000))
+            res = algorithm2(0.8, 1.6, 10000)
+            print("Результат: ", res)
+            if prompt_yes_no("Построить интегральную кривую?", default="n"):
+                plot_integral_curve(0.8, 1.6, num_points=2000)
             print("\nЧтобы продолжить нажмите enter ...")
             input()
         elif choice == "3":
             clear_console()
             print("Алгоритм 1: ", algorithm1(0.8, 1.6, 10000))
             print("Алгоритм 2: ", algorithm2(0.8, 1.6, 10000))
+            if prompt_yes_no("Построить интегральную кривую?", default="n"):
+                plot_integral_curve(0.8, 1.6, num_points=2000)
             print("\nЧтобы продолжить нажмите enter ...")
             input()
         elif choice == "0":
@@ -152,6 +233,10 @@ def multiple_integrals_menu():
         "I = double integral over x=0..1 and y=0..2 of (x^2 + y) / (1 + x + y^2) dy dx"
     )
     print("Результат: ", double_integral(0.8, 1.6, 0.8, 1.6, 100, 100))
+    if prompt_yes_no(
+        "Построить интегральную кривую для однопеременной функции f(x)?", default="n"
+    ):
+        plot_integral_curve(0.8, 1.6, num_points=2000)
     print("\nЧтобы продолжить нажмите enter ...")
     input()
 
@@ -171,21 +256,34 @@ def differential_equations_menu():
             func = control_case_1
             y0 = [1.0]
             a, b = 0.0, 1.0
-            n = 10
+            default_n = 500
         elif choice == "2":
             func = control_case_2
             y0 = [1.0, 0.0]
             a, b = 1.0, 2.0
-            n = 10
+            default_n = 10
         elif choice == "3":
             func = control_case_3
             y0 = [2.0, 1.0, 1.0]
             a, b = 0.0, 0.3
-            n = 100
+            default_n = 100
         else:
             print("Некорректный выбор. Нажмите Enter чтобы продолжить...")
             input()
             continue
+
+        # выбор числа шагов
+        while True:
+            try:
+                n_input = input(
+                    f"Введите число шагов n (по умолчанию {default_n}): "
+                ).strip()
+                n = int(n_input) if n_input != "" else default_n
+                if n <= 0:
+                    raise ValueError()
+                break
+            except ValueError:
+                print("Неверное значение n. Введите положительное целое число.")
 
         # Выбор метода
         while True:
@@ -211,12 +309,6 @@ def differential_equations_menu():
                 input()
                 break
 
-            # Формируем таблицу вывода
-            table = []
-            for i in range(len(xs)):
-                row = [f"{xs[i]:.6f}"] + [f"{val:.6f}" for val in ys[i]]
-                table.append(row)
-
             # Заголовки в зависимости от числа уравнений
             headers = ["x"]
             if len(y0) == 1:
@@ -228,9 +320,33 @@ def differential_equations_menu():
             else:
                 headers += [f"y{i+1}" for i in range(len(y0))]
 
+            # Формируем таблицу вывода
+            table = []
+            for i in range(len(xs)):
+                row = [f"{xs[i]:.6f}"] + [f"{val:.6f}" for val in ys[i]]
+                table.append(row)
+
             clear_console()
             print("=== РЕЗУЛЬТАТ ===\n")
-            print(tabulate(table, headers=headers, tablefmt="grid"))
+            # если шагов немного — показываем всю таблицу, иначе только последнее значение
+            SHOW_THRESHOLD = 100
+            if n <= SHOW_THRESHOLD:
+                print(tabulate(table, headers=headers, tablefmt="grid"))
+            else:
+                last_row = table[-1]
+                print("Слишком много шагов. Показано только последнее значение:")
+                print(tabulate([last_row], headers=headers, tablefmt="grid"))
+
+            # График решения
+            if prompt_yes_no(
+                "Построить график решения? (покажутся все компоненты)", default="n"
+            ):
+                try:
+                    plot_solution(xs, ys, headers)
+                except Exception as e:
+                    print(f"Ошибка при построении графика: {e}")
+                    if plt is None:
+                        print("Установите matplotlib для отображения графиков.")
             print("\nГотово. Нажмите Enter чтобы продолжить...")
             input()
             break
