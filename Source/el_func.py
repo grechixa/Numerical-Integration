@@ -31,5 +31,17 @@ def sin_row(x):
     return s, k
 
 
-print(exp_row(0.5))
-print(sin_row(pi / 6))
+def exp_Cheb(x):
+    s = 0
+    a = [0.9999998, 1, 0.5000063, 0.1666674, 0.0416350, 0.0083298, 0.0014393, 0.0002040]
+    for k in range(len(a)):
+        s += a[k] * x**k
+    return s
+
+
+def sin_Cheb(x):
+    s = 0
+    a = [1.000000002, -0.166666589, 0.008333075, -0.000198107, 0.000002608]
+    for k in range(len(a)):
+        s += a[k] * (x ** (2 * k + 1))
+    return s

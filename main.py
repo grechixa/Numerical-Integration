@@ -256,11 +256,11 @@ def differential_equations_menu():
             func = control_case_1
             y0 = [1.0]
             a, b = 0.0, 1.0
-            default_n = 500
+            default_n = 10
         elif choice == "2":
             func = control_case_2
-            y0 = [1.0, 0.0]
-            a, b = 1.0, 2.0
+            y0 = [0.77, -0.44]
+            a, b = 1.0, 1.5
             default_n = 10
         elif choice == "3":
             func = control_case_3
