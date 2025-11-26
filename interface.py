@@ -7,6 +7,7 @@ def tasks():
     print("0. Завершить работу")
     print("\n")
 
+
 def integrationTypes():
     print("== Варианты интеграции ==")
     print("1. Постоянный шаг")
@@ -35,17 +36,20 @@ def VarStepMethods():
     print("0. Назад")
     print("\n")
 
-def diff_ur():
+
+def diff_ur_type():
     print("=== Дифференциальные уравнения ===")
     print("1. Дифференциальное уравнение 1 порядка")
     print("2. Дифференциальное уравнение 2 порядка")
     print("3. Система дифференциальных уравнений")
     print("0. Назад")
 
-def first_order_diff_ur():
+
+def diff_ur_method():
     print("1. Метод Эйлера")
     print("2. Метод Рунге-Кута")
     print("0. Назад")
+
 
 def elementary_func():
     print("=== Элементарные функции ===")
@@ -53,6 +57,7 @@ def elementary_func():
     print("2. Построение графиков")
     print("3. Табулирование функций")
     print("0. Назад")
+
 
 def nonlinear():
     print("=== Нелинейные уравнения ===")
