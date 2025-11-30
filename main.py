@@ -4,6 +4,7 @@ from Source.integration import *
 from tabulate import tabulate
 from Source.functions import *
 from Source.diff_eq import *
+from Source.el_func import *
 import numpy as np
 
 try:
@@ -350,6 +351,60 @@ def differential_equations_menu():
             print("\nГотово. Нажмите Enter чтобы продолжить...")
             input()
             break
+
+
+def elementary_functions_menu():
+    clear_console()
+    elementary_func()
+    var = input("Выберите функцию: ")
+    if var == "1":
+        clear_console()
+        x = int(input("Введите x: ").strip())
+        s1, k = exp_row(x)
+        s2 = exp_Cheb(x)
+        print(f"Вычисляемая функция: e^{x}")
+        print(f"Результат методом разложения в ряд: {s1}, шаг {k}")
+        print(f"Результат методом чебышева: {s2}")
+        input()
+    elif var == "2":
+        clear_console()
+        x = int(input("Введите x: ").strip())
+        s1, k = sin_row(x)
+        s2 = sin_Cheb(x)
+        print(f"Вычисляемая функция: sin({x})")
+        print(f"Результат методом разложения в ряд: {s1}, шаг {k}")
+        print(f"Результат методом чебышева: {s2}")
+        input()
+    elif var == "3":
+        clear_console()
+        x = int(input("Введите x: ").strip())
+        y0 = input("Введите y0 (Enter чтобы оставить значение пол умолчанию): ").strip()
+        if y0 == "":
+            y0 = None
+        else:
+            y0 = int(y0)
+
+        y, k = sqrt_iter(x)
+
+        print(f"Вычисляемая функция: sqrt({x})")
+        print(f"Результат методом итераций: {y}, шаг: {k}")
+        input()
+    elif var == "4":
+        clear_console()
+        x = int(input("Введите x: ").strip())
+        y0 = input("Введите y0 (Enter чтобы оставить значение пол умолчанию): ").strip()
+        if y0 == "":
+            y0 = None
+        else:
+            y0 = int(y0)
+
+        y, k = reverse_sqrt_iter(x)
+
+        print(f"Вычисляемая функция: 1/sqrt({x})")
+        print(f"Результат методом итераций: {y}, шаг: {k}")
+        input()
+    elif var == "0":
+        main_menu()
 
 
 # Запуск программы

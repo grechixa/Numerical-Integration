@@ -53,9 +53,10 @@ def diff_ur_method():
 
 def elementary_func():
     print("=== Элементарные функции ===")
-    print("1. Вычисление значений функций")
-    print("2. Построение графиков")
-    print("3. Табулирование функций")
+    print("1. e^x")
+    print("2. sin^x")
+    print("3. sqrt(x)")
+    print("4. 1/sqrt(x)")
     print("0. Назад")
 
 
