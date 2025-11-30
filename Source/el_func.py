@@ -18,9 +18,9 @@ def exp_row(x):
 
 
 def sin_row(x):
-    s = 0.0  # Исправлено: должно начинаться с 0
+    s = x
     u = x
-    k = 0  # Исправлено: начинаем с k=0 для правильного подсчета членов
+    k = 1
 
     while True:
         if k == 0:
@@ -62,8 +62,6 @@ def sqrt_iter(x, y0=None):
 
         y0 = 2 ** (m // 2)
 
-    print(f"y0 = {y0}")
-
     count = 0
 
     while True:
@@ -86,8 +84,6 @@ def reverse_sqrt_iter(x, y0=None):
             m += 1
 
         y0 = 2 ** (-1 * (m // 2))
-
-    print(f"y0 = {y0}")
 
     count = 0
 
