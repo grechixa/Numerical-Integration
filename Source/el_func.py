@@ -1,4 +1,5 @@
 from numpy import pi
+from math import sin, exp
 
 
 def exp_row(x):
@@ -17,15 +18,18 @@ def exp_row(x):
 
 
 def sin_row(x):
-    s = x
+    s = 0.0  # Исправлено: должно начинаться с 0
     u = x
-    k = 1
+    k = 0  # Исправлено: начинаем с k=0 для правильного подсчета членов
 
     while True:
-        u *= -(x * x) / (2 * k * (2 * k + 1))
-        if abs(u) <= 1e-6:
-            break
-        s += u
+        if k == 0:
+            s += u
+        else:
+            u *= -(x * x) / ((2 * k) * (2 * k + 1))
+            if abs(u) <= 1e-6:
+                break
+            s += u
         k += 1
 
     return s, k
@@ -45,3 +49,53 @@ def sin_Cheb(x):
     for k in range(len(a)):
         s += a[k] * (x ** (2 * k + 1))
     return s
+
+
+def sqrt_iter(x, y0=None):
+
+    if y0 == None:
+        m = 0
+        while True:
+            if 2**m > x:
+                break
+            m += 1
+
+        y0 = 2 ** (m // 2)
+
+    print(f"y0 = {y0}")
+
+    count = 0
+
+    while True:
+        y = 1 / 2 * (y0 + x / y0)
+        count += 1
+        if abs(y - y0) <= 1e-5:
+            break
+        y0 = y
+
+    return y, count
+
+
+def reverse_sqrt_iter(x, y0=None):
+
+    if y0 == None:
+        m = 0
+        while True:
+            if 2**m > x:
+                break
+            m += 1
+
+        y0 = 2 ** (-1 * (m // 2))
+
+    print(f"y0 = {y0}")
+
+    count = 0
+
+    while True:
+        y = ((3 / 2) * y0) - ((1 / 2) * x * y0**3)
+        count += 1
+        if abs(y - y0) <= 1e-5:
+            break
+        y0 = y
+
+    return y, count
