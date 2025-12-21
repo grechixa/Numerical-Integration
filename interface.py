@@ -60,9 +60,8 @@ def elementary_func():
     print("0. Назад")
 
 
-def nonlinear():
+def nonlinear_equations():
     print("=== Нелинейные уравнения ===")
-    print("1. Метод половинного деления")
-    print("2. Метод Ньютона")
-    print("3. Метод секущих")
+    print("1. x^3 - 12x - 8, [-1, 1]")
+    print("2. x^3 + 4x - 6, [-0.1, 1.2]")
     print("0. Назад")

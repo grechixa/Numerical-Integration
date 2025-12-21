@@ -5,6 +5,7 @@ from tabulate import tabulate
 from Source.functions import *
 from Source.diff_eq import *
 from Source.el_func import *
+from Source.nonlinear_eq import *
 import numpy as np
 
 try:
@@ -405,6 +406,40 @@ def elementary_functions_menu():
         input()
     elif var == "0":
         main_menu()
+
+
+def nonlinear_equations_menu():
+
+    clear_console()
+    nonlinear_equations()
+    equation = input("Выберите уравнение: ")
+
+    if equation == "1":
+        clear_console()
+        print("Результаты вычислений: ")
+
+        res_tangent = tangent_method(f1, -1, 1)
+        print(f"Метод кастельных: {res_tangent:.6f}")
+        res_bisec = bisec_method(f1, -1, 1)
+        print(f"Метод бисекции: {res_bisec:.6f}")
+        res_chrod = chord_method(f1, -1, 1)
+        print(f"Метод хорд: {res_chrod:.6f}")
+
+        input("\nЧтобы продолжить нажмите enter ...")
+    if equation == "2":
+        clear_console()
+        print("Результаты вычислений: ")
+
+        res_tangent = tangent_method(f2, -0.1, 1.2)
+        print(f"Метод кастельных: {res_tangent:.6f}")
+        res_bisec = bisec_method(f2, -0.1, 1.2)
+        print(f"Метод бисекции: {res_bisec:.6f}")
+        res_chrod = chord_method(f2, -0.1, 1.2)
+        print(f"Метод хорд: {res_chrod:.6f}")
+
+        input("\nЧтобы продолжить нажмите enter ...")
+    if equation == "0":
+        return
 
 
 # Запуск программы
